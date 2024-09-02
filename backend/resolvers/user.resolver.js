@@ -1,6 +1,6 @@
-import { users } from '../dummyData/data.js';
-import User from '../models/user.model.js';
-import bcrypt from 'bcryptjs';
+import Transaction from "../models/transaction.model.js";
+import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
 
 const userResolver = {
 	Mutation: {
