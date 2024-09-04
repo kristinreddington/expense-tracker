@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { GET_TRANSACTION } from "../graphql/queries/transaction.query";
 import { UPDATE_TRANSACTION } from "../graphql/mutations/transaction.query";
-import  { TransactionFormSkeleton } from '../components/skeletons/TransactionFormSkeleton';
+import TransactionFormSkeleton from '../components/skeletons/TransactionFormSkeleton';
 
 const TransactionPage = () => {
 	const { id } = useParams();
@@ -12,7 +12,7 @@ const TransactionPage = () => {
 	});
 
 	const [updateTransaction, { loading: loadingUpdate }] = useMutation(UPDATE_TRANSACTION, {
-
+		refetchQueries: ["GetTransactions", "GetTransactionStatistics"],
 	});
 	const [formData, setFormData] = useState({
 		description: data?.transaction?.description || "",
@@ -64,7 +64,7 @@ const TransactionPage = () => {
 		}
 	}, [data]);
 
-	if (loading) return <TransactionFormSkeleton />;
+	if (loading) return <TransactionFormSkeleton />
 
 	return (
 		<div className='h-screen max-w-4xl mx-auto flex flex-col items-center'>

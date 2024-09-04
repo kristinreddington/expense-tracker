@@ -16,12 +16,12 @@ const categoryColorMap = {
 	// Add more categories and corresponding color classes as needed
 };
 
-const Card = ({ transaction }) => {
+const Card = ({ transaction, authUser }) => {
 	let { category, amount, location, date, paymentType, description } = transaction;
 	const cardClass = categoryColorMap[category];
 
 	const [deleteTransaction, {loading, error}] = useMutation(DELETE_TRANSACTION, {
-		refetchQueries: ["DeleteTransaction"],
+		refetchQueries: ["DeleteTransaction", "getTransactionStatistics"],
 	});
 	// Formating fields to uppercase
 	description = description[0]?.toUpperCase() + description.slice(1);
@@ -44,9 +44,9 @@ const Card = ({ transaction }) => {
 		<div className={`rounded-md p-4 bg-gradient-to-br ${cardClass}`}>
 			<div className='flex flex-col gap-3'>
 				<div className='flex flex-row items-center justify-between'>
-					<h2 className='text-lg font-bold text-white'>{category}</h2>
+					<h2 className='text-lg font-bold text-white'>{ category }</h2>
 					<div className='flex items-center gap-2'>
-						{ !loading && <FaTrash className={"cursor-pointer"} onClick={handleDelete}/> }
+						{ !loading && <FaTrash className={"cursor-pointer"} onClick={ handleDelete }/> }
 						{ loading && <div className="w-6 h-6 border-t-2 border-b-2 rounded-full animate-spin"></div> }
 						<Link to={`/transaction/${transaction._id}`}>
 							<HiPencilAlt className='cursor-pointer' size={20} />
@@ -55,24 +55,24 @@ const Card = ({ transaction }) => {
 				</div>
 				<p className='text-white flex items-center gap-1'>
 					<BsCardText />
-					Description: {description}
+					Description: { description }
 				</p>
 				<p className='text-white flex items-center gap-1'>
 					<MdOutlinePayments />
-					Payment Type: {paymentType}
+					Payment Type: { paymentType }
 				</p>
 				<p className='text-white flex items-center gap-1'>
 					<FaSackDollar />
-					Amount: ${amount}
+					Amount: ${ amount }
 				</p>
 				<p className='text-white flex items-center gap-1'>
 					<FaLocationDot />
-					Location: {location || "N/A"}
+					Location: { location || "N/A" }
 				</p>
 				<div className='flex justify-between items-center'>
-					<p className='text-xs text-black font-bold'>{formattedDate}</p>
+					<p className='text-xs text-black font-bold'>{ formattedDate }</p>
 					<img
-						src={"https://tecdn.b-cdn.net/img/new/avatars/2.webp"}
+						src={ authUser.profilePicture }
 						className='h-8 w-8 border rounded-full'
 						alt=''
 					/>
